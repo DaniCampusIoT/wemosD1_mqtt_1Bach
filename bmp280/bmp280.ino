@@ -39,7 +39,7 @@
   #include <WiFiClient.h>
   WiFiClient espClient;
 
-  #define MQTT_SERVER   "192.168.1.81"
+  #define MQTT_SERVER   "192.168.1.101"
   #define MQTT_PORT     1883
   #define MQTT_USER     NULL
   #define MQTT_PASSWORD NULL
@@ -330,14 +330,12 @@ void sendToBroker() {
   // Sub-objeto con info del ESP
   JsonObject esp = doc.createNestedObject("esp");
   esp["ip"]   = WiFi.localIP().toString();
-  esp["rssi"] = WiFi.RSSI();
-
-  // Metadatos
-  doc["sensor"] = "BMP280";
-  doc["timestamp"] = millis();
+  esp["rssi"] = WiFi.RSSI();  
+  esp["timestamp"] = millis();
 
   // Valores del sensor
-  JsonObject values = doc.createNestedObject("values");
+  JsonObject values = doc.createNestedObject("sensor");
+  values["name"] = "BMP280";
   values["temperatura_c"] = tempC;
   values["presion_hpa"]   = pressHP;
   values["altitud_m"]     = altM;
